@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button forwardButton, pauseButton, playButton, backwardButton;
+    private Button forwardButton, pauseButton, playButton, backwardButton, tempoUpButton, tempoDownButton;
     private ImageView iv;
     private MediaPlayer mediaPlayer;
     private double startTime = 0;
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tx1, tx2, tx3;
 
     public static int oneTimeOnly = 0;
+    float speed = 1.0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         pauseButton = (Button) findViewById(R.id.button2);
         playButton = (Button) findViewById(R.id.button3);
         backwardButton = (Button) findViewById(R.id.button4);
+        tempoUpButton = (Button) findViewById(R.id.button5);
+        tempoDownButton = (Button) findViewById(R.id.button6);
         iv = (ImageView) findViewById(R.id.imageView);
 
         tx1 = (TextView) findViewById(R.id.textView2);
@@ -120,6 +123,25 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        tempoUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                speed = speed + 0.1f;
+                mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(speed));
+                Toast.makeText(getApplicationContext(), "Speed up :" + speed, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        tempoDownButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                speed = speed - 0.1f;
+                mediaPlayer.setPlaybackParams(mediaPlayer.getPlaybackParams().setSpeed(speed));
+                Toast.makeText(getApplicationContext(), "Speed down :" + speed, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     //재귀형식으로 100ms마다 seekBar 갱신하는 Runnable
